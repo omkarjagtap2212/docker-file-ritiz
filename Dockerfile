@@ -1,16 +1,11 @@
-FROM ubuntu:focal
+FROM node:14
 
-RUN /usr/bin/apt-get update && \
-    /usr/bin/apt-get install -y curl && \
-    curl -sl https://deb.nodesource.com/setup_18.x | bash -&&\
-    /usr/bin/apt-get update && \
-    /usr/bin/apt-get upgrade -y && \
-    /usr/bin/apt-get install -y nodejs 
+WORKDIR /usr/src/app
 
+COPY package*.json ./
 
+RUN npm install
 
-WORKDIR /home/app
-
-RUN npm i -g nodemon
-
-CMD nodemon main.js
+COPY . .
+EXPOSE 3000
+CMD ["node", "main.js"]
